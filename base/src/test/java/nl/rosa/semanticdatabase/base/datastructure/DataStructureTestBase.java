@@ -1,0 +1,135 @@
+/*
+ * component:   "openEHR Reference Implementation"
+ * description: "Class DataStructureTestBase"
+ * keywords:    "unit test"
+ *
+ * author:      "Rong Chen <rong@acode.se>"
+ * support:     "Acode HB <support@acode.se>"
+ * copyright:   "Copyright (c) 2004 Acode HB, Sweden"
+ * license:     "See notice at bottom of class"
+ *
+ * file:        "$URL: http://svn.openehr.org/ref_impl_java/BRANCHES/RM-1.0-update/libraries/src/test/org/openehr/rm/datastructure/DataStructureTestBase.java $"
+ * revision:    "$LastChangedRevision: 2 $"
+ * last_change: "$LastChangedDate: 2005-10-12 23:20:08 +0200 (Wed, 12 Oct 2005) $"
+ */
+/**
+ * ItemStructureTest
+ *
+ * @author Rong Chen
+ * @version 1.0
+ */
+package nl.rosa.semanticdatabase.base.datastructure;
+
+import nl.rosa.semanticdatabase.base.archetyped.Locatable;
+import nl.rosa.semanticdatabase.base.datastructures.Cluster;
+import nl.rosa.semanticdatabase.base.datastructures.Element;
+import nl.rosa.semanticdatabase.base.datastructures.Item;
+import nl.rosa.semanticdatabase.base.datastructures.ItemStructure;
+import nl.rosa.semanticdatabase.base.datatype.CodePhrase;
+import nl.rosa.semanticdatabase.base.datavalues.DataValue;
+import nl.rosa.semanticdatabase.base.datavalues.quantity.DvProportion;
+import nl.rosa.semanticdatabase.base.datavalues.quantity.DvQuantity;
+import nl.rosa.semanticdatabase.base.datavalues.quantity.ProportionKind;
+import nl.rosa.semanticdatabase.base.datavalues.text.DvCodedText;
+import nl.rosa.semanticdatabase.base.datavalues.text.DvText;
+import nl.rosa.semanticdatabase.base.identification.TestTerminologyID;
+import nl.rosa.semanticdatabase.base.terminology.TestCodeSetAccess;
+import nl.rosa.semanticdatabase.base.terminology.TestTerminologyService;
+
+import java.util.List;
+
+public class DataStructureTestBase {
+
+    // create a cluster
+    protected Cluster cluster(String archetypeNodeId, String name, List<Item> items) {
+        return new Cluster(archetypeNodeId, text(name), items);
+    }
+
+    // create an element by same name, value and code
+    protected Element element(String name) {
+        return element(name, name, name , name);
+    }
+
+    // create an element by name and code
+    protected Element element(String name, String code) {
+        return element(name, name, code, code);
+    }
+
+    // create an element by name and value
+    protected Element element(String name, DataValue value) {
+        return new Element("at001", text(name), value);
+    }
+
+    // create an element by name, and ratio
+    protected Element element(String name, double numerator, double denominator) {
+        return element(name, proportion(numerator, denominator));
+    }
+
+    // create an element with text value
+    protected Element element(String archetypeNodeId, String name,
+                    String value) {
+        return new Element(archetypeNodeId, text(name), text(value));
+    }
+
+    // create an element with codedText value
+    protected Element element(String archetypeNodeId, String name, String value,
+                    String code) {
+        return new Element(archetypeNodeId, text(name), codedText(value, code));
+    }
+
+    // create an element with quanity value
+    protected Element element(String archetypeNodeId, String name,
+                    double value) {
+        return new Element(archetypeNodeId, text(name),
+                new DvQuantity(value));
+    }
+
+    // create a text
+    protected DvText text(String value) {
+        return new DvText(value, TestCodeSetAccess.ENGLISH,
+                TestCodeSetAccess.LATIN_1);
+    }
+
+    // create a codeText
+    protected DvCodedText codedText(String value, String code) {
+        CodePhrase codePhrase =
+                new CodePhrase(TestTerminologyID.SNOMEDCT, code);
+        return new DvCodedText(value, codePhrase);
+    }
+
+    // create a quantityRatio
+    protected DvProportion proportion(double numerator, double denominator) {
+        return new DvProportion(numerator, denominator, ProportionKind.FRACTION, 0L);
+    }
+
+    protected static final String sep = Locatable.PATH_SEPARATOR;
+}
+/*
+ *  ***** BEGIN LICENSE BLOCK *****
+ *  Version: MPL 1.1/GPL 2.0/LGPL 2.1
+ *
+ *  The contents of this file are subject to the Mozilla Public License Version
+ *  1.1 (the 'License'); you may not use this file except in compliance with
+ *  the License. You may obtain a copy of the License at
+ *  http://www.mozilla.org/MPL/
+ *
+ *  Software distributed under the License is distributed on an 'AS IS' basis,
+ *  WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ *  for the specific language governing rights and limitations under the
+ *  License.
+ *
+ *  The Original Code is DataStructureTestBase.java
+ *
+ *  The Initial Developer of the Original Code is Rong Chen.
+ *  Portions created by the Initial Developer are Copyright (C) 2003-2004
+ *  the Initial Developer. All Rights Reserved.
+ *
+ *  Contributor(s):
+ *
+ * Software distributed under the License is distributed on an 'AS IS' basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ *  ***** END LICENSE BLOCK *****
+ */
