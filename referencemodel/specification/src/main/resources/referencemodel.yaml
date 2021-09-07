@@ -8,7 +8,46 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 0.0.1-SNAPSHOT
+externalDocs:
+  url: https://bertverhees.wordpress.com/category/semantic-database/
 servers:
   - url: 'https'
+tags:
+  - name: referencemodel
+    description: Operations on the Reference Model
+    externalDocs:
+      url: https://bertverhees.wordpress.com/category/semantic-database/
+      description: info on this project
 paths:
+  /referencemodel/{referencemodelname}/version/{version}:
+    get:
+      tags:
+        - referencemodel
+      summary: Get a referencemodel by name and version
+      operationId: getReferenceModelByNameAndversion
+      parameters:
+        - name: referencemodelname
+          in: path
+          description: name that needs to be fatched
+          required: true
+          schema:
+            type: string
+        - name: version
+          in: path
+          description: the version that needs to be fetched
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: succesful operation
+          content:
+            application/json:
+              schema:
+                $ref: 'components/schemas/referencemodel'
+        404:
+          description: Referencemodel not found
+          content:
+            {}
+
   
