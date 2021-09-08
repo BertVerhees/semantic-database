@@ -28,7 +28,7 @@ paths:
       parameters:
         - name: referencemodelname
           in: path
-          description: name that needs to be fatched
+          description: name that needs to be fetched
           required: true
           schema:
             type: string
@@ -49,5 +49,86 @@ paths:
           description: Referencemodel not found
           content:
             {}
+        403:
+          description: forbidden
+          content:
+            {}
+        401:
+          description: unauthorized
+          content:
+            {}
+    post:
+      tags:
+        - referencemodel
+      summary: creates a referencemodel with this name and version
+      operationId: createReferenceModelByNameAndversion
+      parameters:
+        - name: referencemodelname
+          in: path
+          description: name that needs to be created
+          required: true
+          schema:
+            type: string
+        - name: version
+          in: path
+          description: the version that needs to be fetched
+          required: true
+          schema:
+            type: string
+      responses:
+        201:
+          description: created
+          content:
+            {}
+        403:
+          description: forbidden
+          content:
+            {}
+        401:
+          description: unauthorized
+          content:
+            {}
+  /referencemodel/{referencemodelname}/version/{version}/packages:
+    get:
+      tags:
+        - packages
+      summary: gets a list of all packages for this referencemodel and version
+      operationId: getPackagesForReferenceModelByNameAndversion
+      parameters:
+        - name: referencemodelname
+          in: path
+          description: name that of referencemodel of which the packages need to be fetched
+          required: true
+          schema:
+            type: string
+        - name: version
+          in: path
+          description: the version of which the packages need to be fetched
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: succesful operation
+          content:
+            application/json:
+              schema:
+                $ref: 'components/schemas/referencemodel/packages'
+        404:
+          description: Referencemodel not found
+          content:
+            { }
+        403:
+          description: forbidden
+          content:
+            { }
+        401:
+          description: unauthorized
+          content:
+            { }
+
+
+
+
 
   
