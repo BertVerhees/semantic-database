@@ -126,6 +126,11 @@ paths:
           description: unauthorized
           content:
             { }
+components:
+  schemas:
+    referencemodel:
+      description: Mother object of a reference object
+      required: true
 
 
 
