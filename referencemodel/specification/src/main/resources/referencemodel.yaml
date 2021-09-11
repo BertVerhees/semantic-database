@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: ReferenceModel
-  description: "Module which uses EMF to handle ReferecneModel creation and changes"
+  description: "Module which uses EMF to handle ReferenceModel creation and changes"
   contact:
     email: bert.verhees@rosa.nl
   license:
@@ -13,16 +13,15 @@ externalDocs:
 servers:
   - url: 'https'
 tags:
-  - name: referencemodel
-    description: Operations on the Reference Model
+  - name: reference_model
     externalDocs:
       url: https://bertverhees.wordpress.com/category/semantic-database/
       description: info on this project
 paths:
-  /referencemodel/{referencemodelname}/version/{version}:
+  /reference_model/{referencemodelname}/version/{version}:
     get:
       tags:
-        - referencemodel
+        - reference_model
       summary: Get a referencemodel by name and version
       operationId: getReferenceModelByNameAndversion
       parameters:
@@ -44,7 +43,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'components/schemas/referencemodel'
+                $ref: '#/components/schemas/reference_model'
         404:
           description: Referencemodel not found
           content:
@@ -59,7 +58,7 @@ paths:
             {}
     post:
       tags:
-        - referencemodel
+        - reference_model
       summary: creates a referencemodel with this name and version
       operationId: createReferenceModelByNameAndversion
       parameters:
@@ -113,7 +112,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'components/schemas/referencemodel/packages'
+                type: array
+                minLength: 0
+                items:
+                  $ref: '#/components/schemas/package'
+
         404:
           description: Referencemodel not found
           content:
@@ -128,9 +131,43 @@ paths:
             { }
 components:
   schemas:
-    referencemodel:
-      description: Mother object of a reference object
+    reference_model:
+      description: referencemodel object
       required: true
+      type: object
+      $ref: '#/components/schemas/reference_model'
+      properties:
+        id:
+          type: string
+          format: uuid
+        referencemodelname:
+          type: string
+          required: true
+          minLength: 1
+          maxLength: 100
+        version:
+          type: string
+          required: true
+          minLength: 0
+          maxLength: 32
+        packages:
+          type: array
+          minLength: 0
+          items:
+            $ref: '#/components/schemas/package'
+    package:
+      description: Package object
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        packagename:
+          type: string
+          required: true
+          minLength: 1
+          maxLength: 256
+
 
 
 
