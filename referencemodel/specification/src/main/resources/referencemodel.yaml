@@ -135,12 +135,11 @@ components:
       description: referencemodel object
       required: true
       type: object
-      $ref: '#/components/schemas/reference_model'
       properties:
         id:
           type: string
           format: uuid
-        referencemodelname:
+        name:
           type: string
           required: true
           minLength: 1
@@ -155,6 +154,11 @@ components:
           minLength: 0
           items:
             $ref: '#/components/schemas/package'
+        classes:
+          type: array
+          minLength: 0
+          items:
+            $ref: '#/components/schemas/class'
     package:
       description: Package object
       type: object
@@ -162,11 +166,34 @@ components:
         id:
           type: string
           format: uuid
-        packagename:
+        name:
           type: string
           required: true
           minLength: 1
           maxLength: 256
+        packages:
+          type: array
+          minLength: 0
+          items:
+            $ref: '#/components/schemas/package'
+        classes:
+          type: array
+          minLength: 0
+          items:
+            $ref: '#/components/schemas/class'
+    class:
+      description: Class object
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          required: true
+          minLength: 1
+          maxLength: 256
+
 
 
 
