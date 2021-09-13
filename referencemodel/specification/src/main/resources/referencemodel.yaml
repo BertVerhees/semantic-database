@@ -127,6 +127,60 @@ paths:
             { }
 components:
   schemas:
+    # Model Access Package
+    modelAccess:
+      description: Access to models that have been loaded and validated from one or more schema sets.
+      type: object
+    schemaDescriptor:
+      description: Descriptor for a schema. Contains a meta-data table of attributes obtained from a parse of the schema.
+    modelMetadata:
+      description: Core properties of Model, may be used in a serial representation as well, such as PSchema.
+      type: object
+      properties:
+        rmPublisher:
+          type: string
+          required: true
+        rmRelease:
+          type: string
+          required: true
+    schema:
+      description: Abstract parent of any persistable form of a model, e.g. PSchema.
+      allOf:
+        - $ref: '#/components/schemas/modelMetadata'
+      properties:
+        version:
+          type: string
+          required: true
+          description: Version of model, enabling schema evolution reasoning. Persisted attribute.
+    schemaState:
+      description: Enumeration of processing states of a Schema used by creation and validation routines in Schema
+    includeSpec:
+      description: Schema inclusion structure
+    # Model Structure
+    modelElement:
+      description: Abstract meta-type of declared model elements. A declaration is a an element of a model within a context, which defines the scope of the element. Thus, a class definition and its property and routine definitions are model elements, but Types are not, since they are derived from model elements.
+    packageContainer:
+      description: A model component that contains packages and classes.
+    package:
+      description: Abstraction of a package as a tree structure whose nodes can contain other packages and classes.         The name may be qualified if it is a top-level package.
+    model:
+      description: Definition of the root of a model (along with what is inherited from schemaCore).
+    module:
+      description: Meta-type defining a generalised module concept. Descendants define actual structure and contents.
+
+    namedItem:
+      description: base class for name and id
+      type: object
+      properties:
+        uid:
+          type: string
+          format: uuid
+          required: true
+        name:
+          type: string
+          required: true
+          minLength: 1
+
     reference_model:
       description: referencemodel object
       required: true
@@ -145,28 +199,6 @@ components:
           required: true
           minLength: 0
           maxLength: 32
-        packages:
-          type: array
-          minLength: 0
-          items:
-            $ref: '#/components/schemas/package'
-        classes:
-          type: array
-          minLength: 0
-          items:
-            $ref: '#/components/schemas/class'
-    package:
-      description: Package object
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-          required: true
-          minLength: 1
-          maxLength: 256
         packages:
           type: array
           minLength: 0
